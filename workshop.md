@@ -7,18 +7,18 @@ sudo apt update
 sudo apt install -y cmake gstreamer1.0-plugins-bad gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-tools libgstreamer-plugins-base1.0-dev
 ```
 
-## SDK 
+## Amazon KVS를 위한 SDK
 
-#### 다운로드
+#### SDK Download
 
-아래와 같이 SDK를 다운로드합니다. 
+아래와 같이 [Amazon KVS를 위한 SDK](https://github.com/awslabs/amazon-kinesis-video-streams-producer-sdk-cpp)를 다운로드합니다. 여기에는 CPP Producer, GStreamer Plugin와 JNI가 있습니다.
 
 ```c
 cd ~
 git clone https://github.com/awslabs/amazon-kinesis-video-streams-producer-sdk-cpp.git
 ```
 
-#### 빌드
+#### SDK Build
 
 아래와 같이 SDK를 다운로드하고 빌드합니다. 
 
