@@ -28,7 +28,9 @@ Amazon Kinesis Video Streams는 연결된 장치와 AWS 간 안전한 미디어 
 이종의 H/W Platform 유형에 대한 Source 및 Firmware 레벨에서의 통합을 위한 완전한 유연성 제공합니다. 
 
 
+## Workshop
 
+[Amazon KVS를 위한 Workshop](https://github.com/kyopark2014/aws-kinesis-video-streams/blob/main/workshop.md)에 대해 설명합니다. 
 
 
 ## Reference 
@@ -36,5 +38,3 @@ Amazon Kinesis Video Streams는 연결된 장치와 AWS 간 안전한 미디어 
 [Amazon Kinesis Video Streams](https://ap-northeast-2.console.aws.amazon.com/kinesisvideo/home?region=ap-northeast-2#/)
 
 [Kinesis Video Streams Producer Libraries](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/producer-sdk.html)
-
-[Amazon Kinesis Video Streams for beginners](https://catalog.us-east-1.prod.workshops.aws/workshops/82de7f30-615c-4adf-b4ae-3438f451735c/ko-KR)
