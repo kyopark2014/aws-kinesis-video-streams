@@ -13,6 +13,10 @@ Amazon Kinesis Video Streams는 연결된 장치와 AWS 간 안전한 미디어 
 
 - Real-time and on-demand playback and  processing: HLS, MPEG-DASH, and integration  with AWS machine learning  services
 
+KVS는 IoT Core등 IoT 서비스들과 아래처럼 활용될 수 있습니다. 
+
+<img width="1065" alt="image" src="https://user-images.githubusercontent.com/52392004/190519583-1624ee6d-e76f-446e-905d-8d8c6c4d650e.png">
+
 ## Kinesis Video Streams Producer Libraries
 
 #### App 개발
