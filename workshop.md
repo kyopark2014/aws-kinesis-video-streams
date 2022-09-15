@@ -15,7 +15,7 @@ sudo apt install -y cmake gstreamer1.0-plugins-bad gstreamer1.0-plugins-good gst
 
 ```c
 cd ~
-git clone --recursive https://github.com/awslabs/amazon-kinesis-video-streams-producer-sdk-cpp.git
+git clone https://github.com/awslabs/amazon-kinesis-video-streams-producer-sdk-cpp.git
 ```
 
 #### 빌드
