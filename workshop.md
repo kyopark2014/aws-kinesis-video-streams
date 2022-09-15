@@ -2,20 +2,23 @@
 
 
 
-패키지 목록을 업데이트하고 SDK를 구축하는 데 필요한 라이브러리를 설치합니다.
+
+## KVS를 위한 환경준비
+
+Cloud9 또는 EC2를 이용해 IoT device처럼 KVS 동작을 확인할 수 있습니다. 아래의 설명은 편의상 "Ubuntu Server 18.04 LTS"을 기준으로 합니다.
+
+#### 필수 라이브러리 설치 
+
+준비한 Cloud9 또는 EC2에 패키지 목록을 업데이트하고 SDK를 구축하는 데 필요한 라이브러리를 설치합니다.
 
 ```c
 sudo apt update
 sudo apt-get install -y libssl-dev libcurl4-openssl-dev liblog4cplus-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev gstreamer1.0-plugins-base-apps gstreamer1.0-plugins-bad gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-tools
 ```
 
-## KVS를 위한 환경준비
-
-Cloud9 또는 EC2를 이용해 IoT device처럼 KVS 동작을 확인할 수 있습니다. 아래의 설명은 편의상 "Ubuntu Server 18.04 LTS"을 기준으로 합니다.
-
 #### SDK Download
 
-준비한 Cloud9 또는 EC2에 아래와 같이 [Amazon KVS를 위한 SDK](https://github.com/awslabs/amazon-kinesis-video-streams-producer-sdk-cpp)를 다운로드합니다. 여기에는 CPP Producer, GStreamer Plugin와 JNI가 있습니다.
+아래와 같이 [Amazon KVS를 위한 SDK](https://github.com/awslabs/amazon-kinesis-video-streams-producer-sdk-cpp)를 다운로드합니다. 여기에는 CPP Producer, GStreamer Plugin와 JNI가 있습니다.
 
 ```c
 git clone https://github.com/awslabs/amazon-kinesis-video-streams-producer-sdk-cpp.git
@@ -41,13 +44,20 @@ sudo apt install cmake
 
 #### KVS 설치 
 
+1) [KVS Console](https://ap-northeast-2.console.aws.amazon.com/kinesisvideo/home?region=ap-northeast-2#/streams)로 이동하여 [Create video stream]을 선택합니다. 
+
+2) 아래와 같이 [Video stream name]으로 "iot-stream"을 입력하고, [Create video stream]을 선택합니다.  
+
+![noname](https://user-images.githubusercontent.com/52392004/190509015-b616afea-acf4-4a2f-a010-173a0b2e7b6b.png)
 
 
 ## KVS에 파일업로드 시험
 
-아래 테스트를 진행하기 위해서는 아래와 같은 credential을 환경변수로 등록하여야 합니다. [임시 Credential 생성](https://github.com/kyopark2014/aws-security-token-service/blob/main/credential-using-aws-cli.md#iam-role-%EC%83%9D%EC%84%B1)을 참조하여 아래 값들을 채웁니다. 
+KVS에 파일업로드를 위해서는 인증과정이 필요합니다. 여기서는 Temparary Credential을 생성하여, 환경변수로 등록하여 사용합니다. [Temparary Credential 생성](https://github.com/kyopark2014/aws-security-token-service/blob/main/credential-using-aws-cli.md#iam-role-%EC%83%9D%EC%84%B1)을 참조하여 아래 값들을 채웁니다. 
 
-1) Temparary Credential 확인
+1) Temparary Credential 생성
+
+아래 명령어를 AWS CLI와 credential이 설치된 PC에서 실행합니다. PC에 설치되지 않았다면, "aws configure" 명령어로 credential을 입력후 수행합니다.
 
 ```c
 aws sts get-session-token
@@ -66,7 +76,7 @@ aws sts get-session-token
 }
 ```
 
-아래와 같이 환경변수로 등록합니다. 이때, 사용하려는 Default Region도 아래처럼 설정하여야 합니다. 
+Temperary credential은 사용하려는 client에 아래와 같이 환경변수로 등록합니다. 이때, 사용하려는 Default Region도 아래처럼 설정하여야 합니다. 
 
 ```c
 export AWS_DEFAULT_REGION=ap-northeast-2
@@ -80,7 +90,9 @@ export AWS_SESSION_TOKEN=SampleJpZ2luX2VjEEUaDmFwLW5vcnRoZWFzdC0yIkcwRQIhAMzoOic
 아래처럼 [github](https://github.com/kyopark2014/aws-kinesis-video-streams)의 sample.mp4을 다운로드 합니다.
 
 ```c
+cd ~
 git clone https://github.com/kyopark2014/aws-kinesis-video-streams
+ls -l $HOME/aws-kinesis-video-streams/samples
 ```
 
 3) SDK를 위한 환경변수를 등록합니다. 
@@ -94,10 +106,34 @@ export LD_LIBRARY_PATH=$HOME/amazon-kinesis-video-streams-producer-sdk-cpp/open-
 
 ```c
 cd ~/amazon-kinesis-video-streams-producer-sdk-cpp/build
-while true; do ./kvs_gstreamer_file_uploader_sample kvs-workshop-stream ~/aws-kinesis-video-streams/sample/sample.mp4 $(date +%s) audio-video && sleep 10s; done
+while true; do ./kvs_gstreamer_file_uploader_sample kvs $HOME/aws-kinesis-video-streams/samples/sample.mp4 $(date +%s) audio-video && sleep 10s; done
+```
+
+상기 명령어 실행시 아래와 같이 동작합니다. 
+
+```c
+[DEBUG] [15-09-2022 21:19:29:336.929 GMT] fragmentAckReceivedHandler invoked
+[DEBUG] [15-09-2022 21:19:29:480.191 GMT] postWriteCallback(): Curl post body write function for stream with handle: kvs and upload handle: 0 returned: {"EventType":"PERSISTED","FragmentTimecode":1663276792152,"FragmentNumber":"91343852333181442415044620702830373390140886713"}
+[DEBUG] [15-09-2022 21:19:29:490.360 GMT] fragmentAckReceivedHandler invoked
+[INFO ] [15-09-2022 21:19:29:490.416 GMT] getStreamData(): Indicating an EOS after last persisted ACK is received for stream upload handle 0
+[DEBUG] [15-09-2022 21:19:29:490.437 GMT] streamClosedHandler invoked for upload handle: 0
+[DEBUG] [15-09-2022 21:19:29:490.455 GMT] Reported streamClosed callback for stream handle 93894138728272. Upload handle 0
+[INFO ] [15-09-2022 21:19:29:490.483 GMT] postReadCallback(): Reported end-of-stream for stream kvs-workshop-stream. Upload handle: 0
+[INFO ] [15-09-2022 21:19:29:490.500 GMT] Sending eos
+[DEBUG] [15-09-2022 21:19:29:490.519 GMT] postReadCallback(): Wrote 0 bytes to Kinesis Video. Upload stream handle: 0
+[INFO ] [15-09-2022 21:19:29:491.376 GMT] Freeing Kinesis Video Stream kvs-workshop-stream
+[INFO ] [15-09-2022 21:19:29:491.415 GMT] freeKinesisVideoStream(): Freeing Kinesis Video stream.
+[DEBUG] [15-09-2022 21:19:29:491.439 GMT] curlApiCallbacksShutdownActiveRequests(): pActiveRequests hashtable is empty
+[INFO ] [15-09-2022 21:19:32:492.680 GMT] freeKinesisVideoClient(): Freeing Kinesis Video Client
+[DEBUG] [15-09-2022 21:19:32:492.733 GMT] curlApiCallbacksShutdownActiveRequests(): pActiveRequests hashtable is empty
+[DEBUG] [15-09-2022 21:19:32:893.444 GMT] freeKinesisVideoClientInternal(): Total allocated memory 0
+[WARN ] [15-09-2022 21:19:32:893.507 GMT] curlApiCallbacksShutdown(): curlApiCallbacksShutdown called when already in progress of shutting down
+[INFO] kvs_gstreamer_file_uploader_sample: Persisted successfully. File: /home/ubuntu/aws-kinesis-video-streams/samples/sample.mp4
 ```
 
 5) 전송된것을 KVS에서 확인합니다. 
+
+[KVS streams console](https://ap-northeast-2.console.aws.amazon.com/kinesisvideo/home?region=ap-northeast-2#/streams)로 
 
 ## Reference
 
