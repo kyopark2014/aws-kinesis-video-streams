@@ -21,11 +21,11 @@ Amazon Kinesis Video Streams는 연결된 장치와 AWS 간 안전한 미디어 
 
 #### Camera-level Integrators
 
-서비스 요청을 만족시키는 객체 지향 및 높은 성능의 통합 모델을 지원하면서 Customizing을 위한 유연성 제공
+서비스 요청을 만족시키는 객체 지향 및 높은 성능의 통합 모델을 지원하면서 Customizing을 위한 유연성 제공할 수 있습니다.
 
-Manufacturers:
-. 이종의 H/W Platform 유형에 대한 Source 및 Firmware
-  레벨에서의 통합을 위한 완전한 유연성 제공
+#### Manufacturers
+
+이종의 H/W Platform 유형에 대한 Source 및 Firmware 레벨에서의 통합을 위한 완전한 유연성 제공합니다. 
 
 
 
