@@ -1,5 +1,7 @@
 # Workshop for KVS
 
+여기서는 [Amazon Kinesis Video Streams for beginners](https://catalog.us-east-1.prod.workshops.aws/workshops/82de7f30-615c-4adf-b4ae-3438f451735c/ko-KR)의 내용을 기준으로 KVS에 동영상을 업로드하는 동작에 대해 설명합니다. 
+
 ## KVS를 위한 환경준비
 
 Cloud9 또는 EC2를 이용하여 IoT device처럼 KVS 동작을 확인할 수 있습니다. 아래의 설명은 편의상 "Ubuntu Server 18.04 LTS"을 기준으로 합니다.
