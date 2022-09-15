@@ -1,5 +1,7 @@
 # Workshop for KVS
 
+
+
 패키지 목록을 업데이트하고 SDK를 구축하는 데 필요한 라이브러리를 설치합니다.
 
 ```c
@@ -62,5 +64,7 @@ while true; do ./kvs_gstreamer_file_uploader_sample kvs-workshop-stream ~/sample
 ```
 
 
+## Reference
 
+[Amazon Kinesis Video Streams for beginners](https://catalog.us-east-1.prod.workshops.aws/workshops/82de7f30-615c-4adf-b4ae-3438f451735c/ko-KR)
 
