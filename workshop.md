@@ -39,7 +39,26 @@ sudo apt install cmake
 ## 테스트
 
 ```c
+export AWS_DEFAULT_REGION=ap-northeast-1
+export AWS_ACCESS_KEY_ID=
+export AWS_SECRET_ACCESS_KEY=
+export AWS_SESSION_TOKEN=
+```
+
+```c
 cd ~
 wget https://sehyul-us-east-1.s3.amazonaws.com/samples/sample.mp4
 ```
+
+```c
+export GST_PLUGIN_PATH=$HOME/amazon-kinesis-video-streams-producer-sdk-cpp/build
+export LD_LIBRARY_PATH=$HOME/amazon-kinesis-video-streams-producer-sdk-cpp/open-source/local/lib
+
+cd ~/amazon-kinesis-video-streams-producer-sdk-cpp/build
+while true; do ./kvs_gstreamer_file_uploader_sample kvs-workshop-stream ~/sample.mp4 $(date +%s) audio-video && sleep 10s; done
+
+```
+
+
+
 
