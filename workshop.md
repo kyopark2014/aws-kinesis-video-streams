@@ -9,14 +9,15 @@ sudo apt update
 sudo apt-get install -y libssl-dev libcurl4-openssl-dev liblog4cplus-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev gstreamer1.0-plugins-base-apps gstreamer1.0-plugins-bad gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-tools
 ```
 
-## Amazon KVS를 위한 SDK 설치
+## KVS를 위한 환경준비
+
+Cloud9 또는 EC2를 이용해 IoT device처럼 KVS 동작을 확인할 수 있습니다. 아래의 설명은 편의상 "Ubuntu Server 18.04 LTS"을 기준으로 합니다.
 
 #### SDK Download
 
-아래와 같이 [Amazon KVS를 위한 SDK](https://github.com/awslabs/amazon-kinesis-video-streams-producer-sdk-cpp)를 다운로드합니다. 여기에는 CPP Producer, GStreamer Plugin와 JNI가 있습니다.
+준비한 Cloud9 또는 EC2에 아래와 같이 [Amazon KVS를 위한 SDK](https://github.com/awslabs/amazon-kinesis-video-streams-producer-sdk-cpp)를 다운로드합니다. 여기에는 CPP Producer, GStreamer Plugin와 JNI가 있습니다.
 
 ```c
-cd ~
 git clone https://github.com/awslabs/amazon-kinesis-video-streams-producer-sdk-cpp.git
 ```
 
@@ -38,31 +39,65 @@ sudo apt --fix-broken install
 sudo apt install cmake
 ```
 
-## 테스트
+#### KVS 설치 
+
+
+
+## KVS에 파일업로드 시험
 
 아래 테스트를 진행하기 위해서는 아래와 같은 credential을 환경변수로 등록하여야 합니다. [임시 Credential 생성](https://github.com/kyopark2014/aws-security-token-service/blob/main/credential-using-aws-cli.md#iam-role-%EC%83%9D%EC%84%B1)을 참조하여 아래 값들을 채웁니다. 
 
-```c
-export AWS_DEFAULT_REGION=ap-northeast-1
-export AWS_ACCESS_KEY_ID=
-export AWS_SECRET_ACCESS_KEY=
-export AWS_SESSION_TOKEN=
-```
+1) Temparary Credential 확인
 
 ```c
-cd ~
-wget https://sehyul-us-east-1.s3.amazonaws.com/samples/sample.mp4
+aws sts get-session-token
 ```
+
+이때의 결과의 예는 아래와 같습니다. 
+
+```c
+{
+    "Credentials": {
+        "AccessKeyId": "SAMPLEKIXN5TEZDODGH5",
+        "SecretAccessKey": "SampleVMcYYwzHhUPW8KsH2vr2CYQHvAXXECnM9w",
+        "SessionToken": "SampleJpZ2luX2VjEEUaDmFwLW5vcnRoZWFzdC0yIkcwRQIhAMzoOicBxEi23325b7uX4VlYanygRPXVMpVZkpO/oL3LAiBX/G/TU+hKlI7sUUvgq7S22qEpFZjteyCAv353S51Ynir0AQje//////////8BEAEaDDY3NzE0Njc1MDgyMiIM3XXl03EGf1PmjbCfKsgB21sUTdSr6dhuz7ZDW66jOz/R6x+Vt/N6aSamplee6kFUCrl99M/DZGQpcxaMlm83exnFTNn/bbW8imp5hY0MTo97/lLd4BZby6OKMZd8zoLIe8moy7g2QK/iZydTw8WoWQCvaT5KJpwFfdBS/TsaJ+urM3B3niwvNZyLaRHRnI+2Du1kQWHUJ7SZ/7uUX1QlLLwVVvlfukqDLWIbz6NHMgKm7H9iGqPhGFP8jSCBephHmphrR3ONu55AbCm+9/eeTRDHuVvBTUYwgpyOmQY6mAGS21Tm2k/3OKfANaL1vyjSampleUF6f64ZkqN3E+27qrhTNtooxyH7v2/mxWiLeLobtUoyDR2V74Y36Py4mRVTgIO5ItIN9LpQQmTwUbTqtMeaPDBCf3hn+eUL+8Y+5xGw8xtr9eOXURwCexupKrgYyo5VpBlckrJKK03uFY3IIm+H8sFeR00twwfZvQ5aMDzCCEAQGbeQJg==",
+        "Expiration": "2022-09-16T08:41:38+00:00"
+    }
+}
+```
+
+아래와 같이 환경변수로 등록합니다. 이때, 사용하려는 Default Region도 아래처럼 설정하여야 합니다. 
+
+```c
+export AWS_DEFAULT_REGION=ap-northeast-2
+export AWS_ACCESS_KEY_ID=SAMPLEKIXN5TEZDODGH5
+export AWS_SECRET_ACCESS_KEY=SampleVMcYYwzHhUPW8KsH2vr2CYQHvAXXECnM9w
+export AWS_SESSION_TOKEN=SampleJpZ2luX2VjEEUaDmFwLW5vcnRoZWFzdC0yIkcwRQIhAMzoOicBxEi23325b7uX4VlYanygRPXVMpVZkpO/oL3LAiBX/G/TU+hKlI7sUUvgq7S22qEpFZjteyCAv353S51Ynir0AQje//////////8BEAEaDDY3NzE0Njc1MDgyMiIM3XXl03EGf1PmjbCfKsgB21sUTdSr6dhuz7ZDW66jOz/R6x+Vt/N6aSamplee6kFUCrl99M/DZGQpcxaMlm83exnFTNn/bbW8imp5hY0MTo97/lLd4BZby6OKMZd8zoLIe8moy7g2QK/iZydTw8WoWQCvaT5KJpwFfdBS/TsaJ+urM3B3niwvNZyLaRHRnI+2Du1kQWHUJ7SZ/7uUX1QlLLwVVvlfukqDLWIbz6NHMgKm7H9iGqPhGFP8jSCBephHmphrR3ONu55AbCm+9/eeTRDHuVvBTUYwgpyOmQY6mAGS21Tm2k/3OKfANaL1vyjSampleUF6f64ZkqN3E+27qrhTNtooxyH7v2/mxWiLeLobtUoyDR2V74Y36Py4mRVTgIO5ItIN9LpQQmTwUbTqtMeaPDBCf3hn+eUL+8Y+5xGw8xtr9eOXURwCexupKrgYyo5VpBlckrJKK03uFY3IIm+H8sFeR00twwfZvQ5aMDzCCEAQGbeQJg==
+```
+
+2) 셈플동영상 다운로드 
+
+아래처럼 [github](https://github.com/kyopark2014/aws-kinesis-video-streams)의 sample.mp4을 다운로드 합니다.
+
+```c
+git clone https://github.com/kyopark2014/aws-kinesis-video-streams
+```
+
+3) SDK를 위한 환경변수를 등록합니다. 
 
 ```c
 export GST_PLUGIN_PATH=$HOME/amazon-kinesis-video-streams-producer-sdk-cpp/build
 export LD_LIBRARY_PATH=$HOME/amazon-kinesis-video-streams-producer-sdk-cpp/open-source/local/lib
-
-cd ~/amazon-kinesis-video-streams-producer-sdk-cpp/build
-while true; do ./kvs_gstreamer_file_uploader_sample kvs-workshop-stream ~/sample.mp4 $(date +%s) audio-video && sleep 10s; done
-
 ```
 
+4) 동영상을 KVS로 반복적으로 전송합니다. 
+
+```c
+cd ~/amazon-kinesis-video-streams-producer-sdk-cpp/build
+while true; do ./kvs_gstreamer_file_uploader_sample kvs-workshop-stream ~/aws-kinesis-video-streams/sample/sample.mp4 $(date +%s) audio-video && sleep 10s; done
+```
+
+5) 전송된것을 KVS에서 확인합니다. 
 
 ## Reference
 
