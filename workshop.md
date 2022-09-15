@@ -1,11 +1,8 @@
 # Workshop for KVS
 
-
-
-
 ## KVS를 위한 환경준비
 
-Cloud9 또는 EC2를 이용해 IoT device처럼 KVS 동작을 확인할 수 있습니다. 아래의 설명은 편의상 "Ubuntu Server 18.04 LTS"을 기준으로 합니다.
+Cloud9 또는 EC2를 이용하여 IoT device처럼 KVS 동작을 확인할 수 있습니다. 아래의 설명은 편의상 "Ubuntu Server 18.04 LTS"을 기준으로 합니다.
 
 #### 필수 라이브러리 설치 
 
@@ -102,40 +99,49 @@ export GST_PLUGIN_PATH=$HOME/amazon-kinesis-video-streams-producer-sdk-cpp/build
 export LD_LIBRARY_PATH=$HOME/amazon-kinesis-video-streams-producer-sdk-cpp/open-source/local/lib
 ```
 
-4) 동영상을 KVS로 반복적으로 전송합니다. 
+4) 동영상을 "iot-stream"으로 반복적으로 전송합니다. 
 
 ```c
 cd ~/amazon-kinesis-video-streams-producer-sdk-cpp/build
-while true; do ./kvs_gstreamer_file_uploader_sample kvs $HOME/aws-kinesis-video-streams/samples/sample.mp4 $(date +%s) audio-video && sleep 10s; done
+while true; do ./kvs_gstreamer_file_uploader_sample iot-stream $HOME/aws-kinesis-video-streams/samples/sample.mp4 $(date +%s) audio-video && sleep 10s; done
 ```
 
 상기 명령어 실행시 아래와 같이 동작합니다. 
 
 ```c
-[DEBUG] [15-09-2022 21:19:29:336.929 GMT] fragmentAckReceivedHandler invoked
-[DEBUG] [15-09-2022 21:19:29:480.191 GMT] postWriteCallback(): Curl post body write function for stream with handle: kvs and upload handle: 0 returned: {"EventType":"PERSISTED","FragmentTimecode":1663276792152,"FragmentNumber":"91343852333181442415044620702830373390140886713"}
-[DEBUG] [15-09-2022 21:19:29:490.360 GMT] fragmentAckReceivedHandler invoked
-[INFO ] [15-09-2022 21:19:29:490.416 GMT] getStreamData(): Indicating an EOS after last persisted ACK is received for stream upload handle 0
-[DEBUG] [15-09-2022 21:19:29:490.437 GMT] streamClosedHandler invoked for upload handle: 0
-[DEBUG] [15-09-2022 21:19:29:490.455 GMT] Reported streamClosed callback for stream handle 93894138728272. Upload handle 0
-[INFO ] [15-09-2022 21:19:29:490.483 GMT] postReadCallback(): Reported end-of-stream for stream kvs-workshop-stream. Upload handle: 0
-[INFO ] [15-09-2022 21:19:29:490.500 GMT] Sending eos
-[DEBUG] [15-09-2022 21:19:29:490.519 GMT] postReadCallback(): Wrote 0 bytes to Kinesis Video. Upload stream handle: 0
-[INFO ] [15-09-2022 21:19:29:491.376 GMT] Freeing Kinesis Video Stream kvs-workshop-stream
-[INFO ] [15-09-2022 21:19:29:491.415 GMT] freeKinesisVideoStream(): Freeing Kinesis Video stream.
-[DEBUG] [15-09-2022 21:19:29:491.439 GMT] curlApiCallbacksShutdownActiveRequests(): pActiveRequests hashtable is empty
-[INFO ] [15-09-2022 21:19:32:492.680 GMT] freeKinesisVideoClient(): Freeing Kinesis Video Client
-[DEBUG] [15-09-2022 21:19:32:492.733 GMT] curlApiCallbacksShutdownActiveRequests(): pActiveRequests hashtable is empty
-[DEBUG] [15-09-2022 21:19:32:893.444 GMT] freeKinesisVideoClientInternal(): Total allocated memory 0
-[WARN ] [15-09-2022 21:19:32:893.507 GMT] curlApiCallbacksShutdown(): curlApiCallbacksShutdown called when already in progress of shutting down
+[DEBUG] [15-09-2022 21:27:04:455.062 GMT] fragmentAckReceivedHandler invoked
+[DEBUG] [15-09-2022 21:27:04:553.098 GMT] postWriteCallback(): Curl post body write function for stream with handle: iot-stream and upload handle: 0 returned: {"EventType":"PERSISTED","FragmentTimecode":1663277247152,"FragmentNumber":"91343852333181432511524306419788296366724229586"}
+
+[DEBUG] [15-09-2022 21:27:04:563.256 GMT] fragmentAckReceivedHandler invoked
+[INFO ] [15-09-2022 21:27:04:563.315 GMT] getStreamData(): Indicating an EOS after last persisted ACK is received for stream upload handle 0
+[DEBUG] [15-09-2022 21:27:04:563.333 GMT] streamClosedHandler invoked for upload handle: 0
+[DEBUG] [15-09-2022 21:27:04:563.346 GMT] Reported streamClosed callback for stream handle 94222702636784. Upload handle 0
+[INFO ] [15-09-2022 21:27:04:563.387 GMT] Sending eos
+[INFO ] [15-09-2022 21:27:04:563.756 GMT] postReadCallback(): Reported end-of-stream for stream iot-stream. Upload handle: 0
+[DEBUG] [15-09-2022 21:27:04:563.878 GMT] postReadCallback(): Wrote 0 bytes to Kinesis Video. Upload stream handle: 0
+[INFO ] [15-09-2022 21:27:04:564.156 GMT] Freeing Kinesis Video Stream iot-stream
+[INFO ] [15-09-2022 21:27:04:564.216 GMT] freeKinesisVideoStream(): Freeing Kinesis Video stream.
+[DEBUG] [15-09-2022 21:27:04:564.246 GMT] curlApiCallbacksShutdownActiveRequests(): pActiveRequests hashtable is empty
+[INFO ] [15-09-2022 21:27:07:665.467 GMT] freeKinesisVideoClient(): Freeing Kinesis Video Client
+[DEBUG] [15-09-2022 21:27:07:665.527 GMT] curlApiCallbacksShutdownActiveRequests(): pActiveRequests hashtable is empty
+[DEBUG] [15-09-2022 21:27:08:066.250 GMT] freeKinesisVideoClientInternal(): Total allocated memory 0
+[WARN ] [15-09-2022 21:27:08:066.328 GMT] curlApiCallbacksShutdown(): curlApiCallbacksShutdown called when already in progress of shutting down
 [INFO] kvs_gstreamer_file_uploader_sample: Persisted successfully. File: /home/ubuntu/aws-kinesis-video-streams/samples/sample.mp4
 ```
 
 5) 전송된것을 KVS에서 확인합니다. 
 
-[KVS streams console](https://ap-northeast-2.console.aws.amazon.com/kinesisvideo/home?region=ap-northeast-2#/streams)로 
+[KVS streams console](https://ap-northeast-2.console.aws.amazon.com/kinesisvideo/home?region=ap-northeast-2#/streams)로 이동한후, [KVS 설치](https://github.com/kyopark2014/aws-kinesis-video-streams/blob/main/workshop.md#kvs-%EC%84%A4%EC%B9%98)에서 생성한 "iot-stream"를 선택합니다. 
+
+이후, 아래와 같이 
+
+
+![image](https://user-images.githubusercontent.com/52392004/190512048-bc2c75bb-8cf1-47cf-bb31-6be4bbdb249f.png)
 
 ## Reference
 
 [Amazon Kinesis Video Streams for beginners](https://catalog.us-east-1.prod.workshops.aws/workshops/82de7f30-615c-4adf-b4ae-3438f451735c/ko-KR)
+
+
+
 
