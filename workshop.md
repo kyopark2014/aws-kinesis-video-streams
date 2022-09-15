@@ -38,6 +38,8 @@ sudo apt install cmake
 
 ## 테스트
 
+아래 테스트를 진행하기 위해서는 아래와 같은 credential을 환경변수로 등록하여야 합니다. [임시 Credential 생성](https://github.com/kyopark2014/aws-security-token-service/blob/main/credential-using-aws-cli.md#iam-role-%EC%83%9D%EC%84%B1)을 참조하여 아래 값들을 채웁니다. 
+
 ```c
 export AWS_DEFAULT_REGION=ap-northeast-1
 export AWS_ACCESS_KEY_ID=
