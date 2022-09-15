@@ -133,10 +133,10 @@ while true; do ./kvs_gstreamer_file_uploader_sample iot-stream $HOME/aws-kinesis
 
 [[KVS streams console](https://ap-northeast-2.console.aws.amazon.com/kinesisvideo/home?region=ap-northeast-2#/streams)]로 이동한후, [KVS 설치](https://github.com/kyopark2014/aws-kinesis-video-streams/blob/main/workshop.md#kvs-%EC%84%A4%EC%B9%98)에서 생성한 "iot-stream"를 선택합니다. 
 
-이후, 아래와 같이 
+이후, 아래와 같이 [Media playback]을 선택하면, 업로드 되고 있는 동영상을 확인할 수 있습니다. 
 
+![noname](https://user-images.githubusercontent.com/52392004/190512431-4d0101f6-4552-42ba-9cf0-649102ca67d4.png)
 
-![image](https://user-images.githubusercontent.com/52392004/190512048-bc2c75bb-8cf1-47cf-bb31-6be4bbdb249f.png)
 
 ## Reference
 
