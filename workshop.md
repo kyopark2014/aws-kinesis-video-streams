@@ -41,7 +41,7 @@ sudo apt install cmake
 
 #### KVS 설치 
 
-1) [KVS Console](https://ap-northeast-2.console.aws.amazon.com/kinesisvideo/home?region=ap-northeast-2#/streams)로 이동하여 [Create video stream]을 선택합니다. 
+1) [[KVS Console](https://ap-northeast-2.console.aws.amazon.com/kinesisvideo/home?region=ap-northeast-2#/streams)]로 이동하여 [Create video stream]을 선택합니다. 
 
 2) 아래와 같이 [Video stream name]으로 "iot-stream"을 입력하고, [Create video stream]을 선택합니다.  
 
@@ -131,7 +131,7 @@ while true; do ./kvs_gstreamer_file_uploader_sample iot-stream $HOME/aws-kinesis
 
 5) 전송된것을 KVS에서 확인합니다. 
 
-[KVS streams console](https://ap-northeast-2.console.aws.amazon.com/kinesisvideo/home?region=ap-northeast-2#/streams)로 이동한후, [KVS 설치](https://github.com/kyopark2014/aws-kinesis-video-streams/blob/main/workshop.md#kvs-%EC%84%A4%EC%B9%98)에서 생성한 "iot-stream"를 선택합니다. 
+[[KVS streams console](https://ap-northeast-2.console.aws.amazon.com/kinesisvideo/home?region=ap-northeast-2#/streams)]로 이동한후, [KVS 설치](https://github.com/kyopark2014/aws-kinesis-video-streams/blob/main/workshop.md#kvs-%EC%84%A4%EC%B9%98)에서 생성한 "iot-stream"를 선택합니다. 
 
 이후, 아래와 같이 
 
